@@ -37,10 +37,15 @@ export const useEditorStore = defineStore("editor", {
       this.data.blocks.splice(destinationIndex, 0, removed);
     },
     // init a dragging block data when start dragging from side menu
-    generateEmptyBlock(type: IEditorBlock["type"]): IEditorBlock["data"] {
-      return type === "text"
-        ? this.generateEmptyTextBlock()
-        : this.generateEmptyImageBlock();
+    generateEmptyBlock(type: IEditorBlock["type"]): IEditorBlock {
+      return {
+        id: `block-${Date.now()}`,
+        type,
+        data:
+          type === "text"
+            ? this.generateEmptyTextBlock()
+            : this.generateEmptyImageBlock(),
+      };
     },
     generateEmptyTextBlock(): ITextBlock {
       return {

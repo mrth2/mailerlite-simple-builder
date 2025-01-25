@@ -13,7 +13,8 @@
     "lucide-vue-next": "^0.474.0",
     "pinia": "^2.1.6",
     "vue": "^3.3.4",
-    "vue-router": "^4.2.4"
+    "vue-router": "^4.2.4",
+    "vue-tippy": "^6.6.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.14",

@@ -10,7 +10,7 @@ import type { IEditorBlock, IEditorBlockImage } from "@/types";
 import CanvasBlock from "./CanvasBlock.vue";
 
 const EditorStore = useEditorStore();
-const addedBlocks = computed(() => EditorStore.data?.blocks ?? []);
+const addedBlocks = computed(() => EditorStore.blocks);
 
 onMounted(() => {
   EditorStore.initialize(); // reset blocks on mount
@@ -48,15 +48,6 @@ function onSelectImage(imageUrl: string) {
   }); // add image block with src
   pendingImageBlock.value = null; // reset pending image block
 }
-
-function onDuplicateBlock(blockId: string) {
-  const block = addedBlocks.value.find((b) => b.id === blockId);
-  if (!block) return;
-  EditorStore.addBlock(block); // duplicate block
-}
-function onDeleteBlock(blockId: string) {
-  EditorStore.removeBlock(blockId); // remove block
-}
 </script>
 
 <template>
@@ -69,8 +60,6 @@ function onDeleteBlock(blockId: string) {
           v-for="block in addedBlocks"
           :key="block.id"
           :blockId="block.id"
-          @duplicate="onDuplicateBlock(block.id)"
-          @remove="onDeleteBlock(block.id)"
         >
           <template #default="{ onFocus, onBlur }">
             <TextBlock

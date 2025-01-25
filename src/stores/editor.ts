@@ -10,7 +10,9 @@ export const useEditorStore = defineStore("editor", {
   state: () => ({
     data: null as IEditorData | null,
   }),
-
+  getters: {
+    blocks: (state) => state.data?.blocks ?? [],
+  },
   actions: {
     initialize() {
       this.data = {
@@ -78,10 +80,6 @@ export const useEditorStore = defineStore("editor", {
         height: "auto",
       };
     },
-  },
-
-  getters: {
-    // Define your getters here
   },
 });
 

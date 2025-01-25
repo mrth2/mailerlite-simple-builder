@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { ArrowUp, ArrowDown, Copy, Trash } from "lucide-vue-next";
+import { useEditorStore } from "@/stores";
 
 const props = defineProps<{
   blockId: string;
-}>();
-
-const emit = defineEmits<{
-  (event: "remove"): void;
-  (event: "moveUp"): void;
-  (event: "moveDown"): void;
-  (event: "duplicate"): void;
 }>();
 
 const showActions = ref(false);
@@ -31,6 +25,23 @@ function onBlockBlur() {
   isFocusing.value = false;
   showActions.value = false;
 }
+
+// actions
+const EditorStore = useEditorStore();
+function onMoveBlockUp() {
+  // EditorStore.moveBlockUp(props.blockId); // move block up
+}
+function onMoveBlockDown() {
+  // EditorStore.moveBlockDown(props.blockId); // move block down
+}
+function onDuplicateBlock() {
+  const block = EditorStore.blocks.find((b) => b.id === props.blockId);
+  if (!block) return;
+  EditorStore.addBlock(block); // duplicate block
+}
+function onDeleteBlock() {
+  EditorStore.removeBlock(props.blockId); // remove block
+}
 </script>
 
 <template>
@@ -44,30 +55,30 @@ function onBlockBlur() {
 
     <div v-if="showActions" class="block-actions">
       <button
-        @click="$emit('moveUp')"
-        title="Move Up"
+        v-tippy="{ content: 'Move Up' }"
         class="block-action-item"
+        @click="onMoveBlockUp"
       >
         <ArrowUp class="w-4 h-4" />
       </button>
       <button
-        @click="$emit('moveDown')"
-        title="Move Down"
+        v-tippy="{ content: 'Move Down' }"
         class="block-action-item"
+        @click="onMoveBlockDown"
       >
         <ArrowDown class="w-4 h-4" />
       </button>
       <button
-        @click="$emit('duplicate')"
-        title="Duplicate"
+        v-tippy="{ content: 'Duplicate' }"
         class="block-action-item"
+        @click="onDuplicateBlock"
       >
         <Copy class="w-4 h-4" />
       </button>
       <button
-        @click="$emit('remove')"
-        title="Remove"
+        v-tippy="{ content: 'Remove' }"
         class="block-action-item text-red-600"
+        @click="onDeleteBlock"
       >
         <Trash class="w-4 h-4" />
       </button>

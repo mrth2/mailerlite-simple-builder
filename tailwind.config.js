@@ -10,9 +10,9 @@ module.exports = {
         primary: ['var(--font-family)']
       },
       colors: {
-        primary: 'var(--color-primary)',
-        accent: 'var(--color-accent)',
-        neutral: 'var(--color-neutral)',
+        primary: '#2a2a2b',
+        accent: '#09c269',
+        neutral: '#f4f7fa',
       }
     },
   },

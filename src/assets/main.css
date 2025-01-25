@@ -7,9 +7,9 @@
 @layer base {
   html {
     --font-family: "Inter", system-ui, sans-serif;
-    --color-primary: #2a2a2b;
-    --color-accent: #09c269;
-    --color-neutral: #f4f7fa;
+    --color-primary: theme('colors.primary', #000);
+    --color-accent: theme('colors.accent', #000);
+    --color-neutral: theme('colors.neutral', #000);
 
     font-family: var(--font-family);
   }

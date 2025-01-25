@@ -17,10 +17,8 @@ const textData = ref(_cloneDeep(props.data));
 function startEditBlock() {
   textData.value = _cloneDeep(props.data);
 }
-function updateTextContent(event: Event) {
+function updateTextBlock(event: FocusEvent) {
   textData.value.content = (event.target as HTMLDivElement).innerHTML;
-}
-function updateTextBlock() {
   EditorStore.updateBlock(props.id, textData.value);
 }
 </script>
@@ -37,7 +35,6 @@ function updateTextBlock() {
       textAlign: textData.textAlign ?? 'left',
     }"
     @focus="startEditBlock"
-    @input="updateTextContent"
     @blur="updateTextBlock"
   />
 </template>

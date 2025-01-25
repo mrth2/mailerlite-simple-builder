@@ -3,17 +3,18 @@ import type { IImageBlock } from "@/types";
 import { defineProps } from "vue";
 
 defineProps<{
-  block: IImageBlock;
+  id: string;
+  data: IImageBlock;
 }>();
 </script>
 
 <template>
-  <div class="image-block" :style="{ justifyContent: block.alignment }">
+  <div class="image-block" :style="{ justifyContent: data.alignment }">
     <img
-      :src="block.src || 'https://picsum.photos/400'"
+      :src="data.src || 'https://picsum.photos/400'"
       alt="Image"
-      :width="block.width"
-      :height="block.height"
+      :width="data.width"
+      :height="data.height"
     />
   </div>
 </template>

@@ -36,8 +36,16 @@ function onDropBlock(event: DragEvent) {
       <!-- Editor content will go here -->
       <div class="canvas-blocks">
         <div v-for="block in addedBlocks" :key="block.id">
-          <TextBlock v-if="block.type === 'text'" :block="block.data" />
-          <ImageBlock v-else-if="block.type === 'image'" :block="block.data" />
+          <TextBlock
+            v-if="block.type === 'text'"
+            :id="block.id"
+            :data="block.data"
+          />
+          <ImageBlock
+            v-else-if="block.type === 'image'"
+            :id="block.id"
+            :data="block.data"
+          />
         </div>
       </div>
     </div>

@@ -24,10 +24,9 @@ export const useEditorStore = defineStore("editor", {
     },
     // remove a block from the list
     removeBlock(blockId: string) {
-      const index = this.data?.blocks.findIndex(
-        (block) => block.id === blockId
-      );
-      if (index === undefined || index < 0 || !this.data) return;
+      if (!this.data) return;
+      const index = this.data.blocks.findIndex((block) => block.id === blockId);
+      if (index < 0) return;
       this.data.blocks.splice(index, 1);
     },
     // reorder blocks in the list by swapping them
@@ -35,6 +34,13 @@ export const useEditorStore = defineStore("editor", {
       if (!this.data) return;
       const [removed] = this.data.blocks.splice(sourceIndex, 1);
       this.data.blocks.splice(destinationIndex, 0, removed);
+    },
+    // update block data by id
+    updateBlock(blockId: string, data: ITextBlock | IImageBlock) {
+      if (!this.data) return;
+      const index = this.data.blocks.findIndex((b) => b.id === blockId);
+      if (index < 0) return;
+      this.data.blocks[index].data = data;
     },
     // init a dragging block data when start dragging from side menu
     generateEmptyBlock(type: IEditorBlock["type"]): IEditorBlock {

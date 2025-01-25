@@ -56,6 +56,8 @@ const draggedOverIndex = ref<number | null>(null);
 
 const blockRef = ref<HTMLElement | null>(null);
 
+const dropPosition = ref<"top" | "bottom" | null>(null);
+
 function onDragStart(e: DragEvent) {
   if (!e.dataTransfer || !blockRef.value) return;
 
@@ -105,8 +107,11 @@ function onDragOver(e: DragEvent) {
   // Determine if we should place before or after based on mouse position
   const mouseY = e.clientY;
   const threshold = rect.top + rect.height / 2;
-  const targetIndex =
-    mouseY < threshold ? currentBlockIndex.value : currentBlockIndex.value + 1;
+  dropPosition.value = mouseY < threshold ? "top" : "bottom";
+}
+
+function onDragLeave() {
+  dropPosition.value = null;
 }
 
 function onDrop(e: DragEvent) {
@@ -116,11 +121,16 @@ function onDrop(e: DragEvent) {
 
   const sourceIndex = EditorStore.getBlockIndex(sourceBlockId);
   const targetIndex = currentBlockIndex.value;
-
+  
   if (sourceIndex !== -1 && targetIndex !== -1) {
-    EditorStore.moveBlock(sourceIndex, targetIndex);
+    // If dropping below, increment target index to insert after current block
+    const adjustedTargetIndex = dropPosition.value === 'bottom' 
+      ? targetIndex + 1 
+      : targetIndex;
+    EditorStore.moveBlock(sourceIndex, adjustedTargetIndex);
   }
 
+  dropPosition.value = null;
   EditorStore.setDragging(null);
 }
 
@@ -128,6 +138,8 @@ function onDrop(e: DragEvent) {
 const blockClasses = computed(() => ({
   active: showActions.value,
   dragging: isDragging.value,
+  "drop-target-top": dropPosition.value === "top",
+  "drop-target-bottom": dropPosition.value === "bottom",
 }));
 </script>
 
@@ -139,6 +151,7 @@ const blockClasses = computed(() => ({
     @mouseover="onMouseOver"
     @mouseleave="onMouseLeave"
     @dragover="onDragOver"
+    @dragleave="onDragLeave"
     @drop="onDrop"
   >
     <div class="block-content">
@@ -201,12 +214,17 @@ const blockClasses = computed(() => ({
     @apply opacity-50;
   }
 
-  &.drop-target {
-    @apply border-primary border-solid;
-
+  &.drop-target-top {
     &::before {
       content: "";
-      @apply absolute -top-1 left-0 right-0 h-0.5 bg-primary;
+      @apply absolute -top-1 inset-x-0 h-1 bg-primary;
+    }
+  }
+
+  &.drop-target-bottom {
+    &::after {
+      content: "";
+      @apply absolute -bottom-1 inset-x-0 h-1 bg-primary;
     }
   }
 

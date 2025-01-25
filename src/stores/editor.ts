@@ -107,7 +107,11 @@ export const useEditorStore = defineStore("editor", {
       if (!this.data) return;
       const blocks = [...this.blocks];
       const [movedBlock] = blocks.splice(fromIndex, 1);
-      blocks.splice(toIndex, 0, movedBlock);
+      
+      // Adjust target index if moving forward to account for removed element
+      const finalTargetIndex = fromIndex < toIndex ? toIndex - 1 : toIndex;
+      blocks.splice(finalTargetIndex, 0, movedBlock);
+      
       this.data.blocks = blocks;
     },
     setDragging(blockId: string | null) {

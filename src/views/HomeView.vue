@@ -5,7 +5,7 @@ import HeaderMenu from "@/components/editor/HeaderMenu.vue";
 </script>
 
 <template>
-  <main class="grid bg-neutral grid-cols-[minmax(250px,350px)_1fr] gap-4 py-14">
+  <main class="grid bg-neutral grid-cols-[minmax(250px,350px)_1fr] gap-4 pt-14">
     <HeaderMenu />
     <SideMenu />
     <CanvasEditor />

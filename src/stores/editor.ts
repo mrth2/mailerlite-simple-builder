@@ -38,19 +38,26 @@ export const useEditorStore = defineStore("editor", {
     },
     // init a dragging block data when start dragging from side menu
     generateEmptyBlock(type: IEditorBlock["type"]): IEditorBlock {
-      return {
-        id: `block-${Date.now()}`,
-        type,
-        data:
-          type === "text"
-            ? this.generateEmptyTextBlock()
-            : this.generateEmptyImageBlock(),
-      };
+      const id = `block-${Date.now()}`;
+      if (type === "text") {
+        return {
+          id,
+          type,
+          data: this.generateEmptyTextBlock(),
+        };
+      } else {
+        return {
+          id: `block-${Date.now()}`,
+          type,
+          data: this.generateEmptyImageBlock(),
+        };
+      }
     },
     generateEmptyTextBlock(): ITextBlock {
       return {
         id: `text-${Date.now()}`,
-        content: "",
+        content: "Feel free to type something here...",
+        textAlign: "left",
         fontSize: 16,
         fontFamily: "var(--font-family)",
         color: "var(--color-primary)",

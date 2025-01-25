@@ -2,6 +2,8 @@
 import { useEditorStore } from "@/stores";
 import { onMounted } from "vue";
 import { computed } from "vue";
+import TextBlock from "../blocks/TextBlock.vue";
+import ImageBlock from "../blocks/ImageBlock.vue";
 
 const EditorStore = useEditorStore();
 const addedBlocks = computed(() => EditorStore.data?.blocks ?? []);
@@ -30,11 +32,12 @@ function onDropBlock(event: DragEvent) {
 <template>
   <section class="canvas-editor">
     <div class="canvas-area" @dragover="onDragBlockOver" @drop="onDropBlock">
-      <h2 class="text-xl font-semibold mb-4">Editor</h2>
+      <h2 class="text-xl font-semibold mb-4 ml-8">Editor</h2>
       <!-- Editor content will go here -->
       <div class="canvas-blocks">
         <div v-for="block in addedBlocks" :key="block.id">
-          {{ block.data }}
+          <TextBlock v-if="block.type === 'text'" :block="block.data" />
+          <ImageBlock v-else-if="block.type === 'image'" :block="block.data" />
         </div>
       </div>
     </div>
@@ -46,7 +49,7 @@ function onDropBlock(event: DragEvent) {
   @apply p-10;
 
   .canvas-area {
-    @apply bg-white rounded-lg p-8 max-w-screen-md mx-auto min-h-[calc(100vh-2rem)] shadow-sm;
+    @apply bg-white rounded-lg py-8 max-w-screen-md mx-auto min-h-[calc(100vh-2rem)] shadow-sm;
   }
 }
 </style>

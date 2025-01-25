@@ -1,13 +1,16 @@
 import type { IImageBlock, ITextBlock } from "./blocks";
 
-type TBlockType = "text" | "image";
-type TBlockData = ITextBlock | IImageBlock;
-
-export interface IEditorBlock {
-  id: string;
-  type: TBlockType;
-  data: TBlockData;
-}
+export type IEditorBlock =
+  | {
+      id: string;
+      type: "text";
+      data: ITextBlock;
+    }
+  | {
+      id: string;
+      type: "image";
+      data: IImageBlock;
+    };
 export interface IEditorData {
   blocks: IEditorBlock[];
 }

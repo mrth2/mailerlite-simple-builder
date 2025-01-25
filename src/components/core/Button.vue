@@ -3,9 +3,11 @@ import { withDefaults, defineProps } from "vue";
 withDefaults(
   defineProps<{
     type?: "button" | "submit";
+    disabled?: boolean;
   }>(),
   {
     type: "button",
+    disabled: false,
   }
 );
 </script>

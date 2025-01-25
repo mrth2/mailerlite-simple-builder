@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Text, Image } from "lucide-vue-next";
 import { useEditorStore } from "@/stores";
 import type { IEditorBlock } from "@/types";
 
@@ -17,9 +18,11 @@ function onStartDragBlock(event: DragEvent, blockType: IEditorBlock["type"]) {
     <p>Simply drag & drop blocks below to the right</p>
     <ul class="ui-blocks">
       <li draggable="true" @dragstart="onStartDragBlock($event, 'text')">
+        <Text class="w-5 h-5" />
         Text
       </li>
       <li draggable="true" @dragstart="onStartDragBlock($event, 'image')">
+        <Image class="w-5 h-5" />
         Image
       </li>
     </ul>
@@ -32,7 +35,8 @@ function onStartDragBlock(event: DragEvent, blockType: IEditorBlock["type"]) {
   ul.ui-blocks {
     @apply flex flex-col gap-3;
     li {
-      @apply bg-green-200 p-2 rounded-lg shadow-sm text-primary cursor-move;
+      @apply bg-accent text-white p-2 rounded-lg shadow-sm cursor-move;
+      @apply flex gap-2 items-center;
     }
   }
 }

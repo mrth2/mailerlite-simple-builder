@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { X } from "lucide-vue-next";
 defineEmits<{
   (event: "close"): void;
   (event: "select", image: string): void;
@@ -18,7 +19,10 @@ const availableImages = [
     <div class="modal-container">
       <div class="modal-header">
         <h2 class="text-xl">Select an Image to continue</h2>
-        <button class="modal-close-button" @click="$emit('close')">&times;</button>
+        <X
+          class="modal-close-button cursor-pointer w-6 h-6"
+          @click="$emit('close')"
+        />
       </div>
       <div class="image-grid">
         <img

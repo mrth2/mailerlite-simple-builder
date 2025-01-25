@@ -2,6 +2,7 @@
 import { useEditorStore } from "@/stores";
 import Button from "../core/Button.vue";
 import { ref } from "vue";
+import { Save } from "lucide-vue-next";
 
 const EditorStore = useEditorStore();
 
@@ -20,7 +21,12 @@ function onSave() {
   <header class="header-menu">
     <div class="text-lg font-bold uppercase">Simple Builder</div>
     <p class="text-xs mt-1.5 mr-auto">by HoaTrinh</p>
-    <Button @click="onSave">
+    <Button
+      :disabled="isSaving"
+      @click="onSave"
+      class="flex items-center gap-2"
+    >
+      <Save class="w-5 h-5" />
       {{ isSaving ? "Saving..." : "Save" }}
     </Button>
   </header>

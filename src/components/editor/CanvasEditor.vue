@@ -7,6 +7,7 @@ import ImageBlock from "../blocks/ImageBlock.vue";
 import ModalPickImage from "./ModalPickImage.vue";
 import { ref } from "vue";
 import type { IEditorBlock, IEditorBlockImage } from "@/types";
+import CanvasBlock from "./CanvasBlock.vue";
 
 const EditorStore = useEditorStore();
 const addedBlocks = computed(() => EditorStore.data?.blocks ?? []);
@@ -47,6 +48,15 @@ function onSelectImage(imageUrl: string) {
   }); // add image block with src
   pendingImageBlock.value = null; // reset pending image block
 }
+
+function onDuplicateBlock(blockId: string) {
+  const block = addedBlocks.value.find((b) => b.id === blockId);
+  if (!block) return;
+  EditorStore.addBlock(block); // duplicate block
+}
+function onDeleteBlock(blockId: string) {
+  EditorStore.removeBlock(blockId); // remove block
+}
 </script>
 
 <template>
@@ -55,7 +65,13 @@ function onSelectImage(imageUrl: string) {
       <h2 class="text-xl font-semibold mb-4 ml-8">Editor</h2>
       <!-- Editor content will go here -->
       <div class="canvas-blocks">
-        <div v-for="block in addedBlocks" :key="block.id">
+        <CanvasBlock
+          v-for="block in addedBlocks"
+          :key="block.id"
+          :blockId="block.id"
+          @duplicate="onDuplicateBlock(block.id)"
+          @remove="onDeleteBlock(block.id)"
+        >
           <TextBlock
             v-if="block.type === 'text'"
             :id="block.id"
@@ -66,7 +82,7 @@ function onSelectImage(imageUrl: string) {
             :id="block.id"
             :data="block.data"
           />
-        </div>
+        </CanvasBlock>
       </div>
     </div>
     <Teleport to="body">

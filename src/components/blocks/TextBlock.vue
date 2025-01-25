@@ -41,7 +41,7 @@ function updateTextBlock(event: FocusEvent) {
 
 <style scoped lang="postcss">
 .text-block {
-  @apply py-4 px-8 border-2 border-dashed border-transparent hover:border-accent transition-colors duration-300 ease-out;
+  @apply py-4 px-8;
   @apply focus-within:outline-none focus-within:border-accent;
 }
 </style>

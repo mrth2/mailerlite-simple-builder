@@ -13,19 +13,19 @@ const emit = defineEmits<{
   (event: "duplicate"): void;
 }>();
 
-const showMenu = ref(false);
+const showActions = ref(false);
 </script>
 
 <template>
   <div
     class="canvas-block"
-    :class="{ 'outline-2 outline-dashed outline-gray-300': showMenu }"
-    @mouseover="showMenu = true"
-    @mouseleave="showMenu = false"
+    :class="{ active: showActions }"
+    @mouseover="showActions = true"
+    @mouseleave="showActions = false"
   >
     <slot />
 
-    <div v-if="showMenu" class="block-actions">
+    <div v-if="showActions" class="block-actions">
       <button
         @click="$emit('moveUp')"
         title="Move Up"
@@ -61,6 +61,11 @@ const showMenu = ref(false);
 <style scoped lang="postcss">
 .canvas-block {
   @apply relative;
+
+  &.active {
+    @apply border-2 border-dashed border-transparent hover:border-accent transition-colors duration-300 ease-out;
+  }
+
   .block-actions {
     @apply absolute -top-8 right-0 bg-white border border-gray-200 rounded p-1 flex gap-1 shadow-sm;
     .block-action-item {

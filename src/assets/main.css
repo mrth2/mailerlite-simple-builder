@@ -7,19 +7,31 @@
 @layer base {
   html {
     --font-family: "Inter", system-ui, sans-serif;
-    --color-primary: theme('colors.primary', #000);
-    --color-accent: theme('colors.accent', #000);
-    --color-neutral: theme('colors.neutral', #000);
+    --color-primary: theme("colors.primary", #000);
+    --color-accent: theme("colors.accent", #000);
+    --color-neutral: theme("colors.neutral", #000);
 
     font-family: var(--font-family);
   }
 }
 
-/* Example of nesting */
-.card {
-  @apply bg-white rounded-lg shadow;
+@layer components {
+  .modal {
+    @apply fixed inset-0 z-50 flex items-center justify-center;
+  }
 
-  & .card-title {
-    @apply text-xl font-bold;
+  .modal-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50;
+  }
+
+  .modal-container {
+    @apply bg-white rounded-lg shadow-xl z-50 max-w-screen-sm w-full mx-4 p-6 max-h-[calc(100vh-2rem)] overflow-y-auto;
+  }
+
+  .modal-header {
+    @apply flex justify-between items-center p-4 border-b border-gray-200;
+  }
+  .modal-close-button {
+    @apply text-2xl font-bold text-gray-500 hover:text-gray-700 cursor-pointer border-none bg-transparent;
   }
 }

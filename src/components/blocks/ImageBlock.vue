@@ -2,10 +2,12 @@
 import type { IImageBlock } from "@/types";
 import { defineProps } from "vue";
 
-defineProps<{
+const props = defineProps<{
   id: string;
   data: IImageBlock;
 }>();
+
+// if image src is not provided, request user to pick an image
 </script>
 
 <template>

@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { ArrowUp, ArrowDown, Copy, Trash } from "lucide-vue-next";
 import { useEditorStore } from "@/stores";
+import { computed } from "vue";
 
 const props = defineProps<{
   blockId: string;
@@ -26,8 +27,15 @@ function onBlockBlur() {
   showActions.value = false;
 }
 
-// actions
 const EditorStore = useEditorStore();
+const currentBlockIndex = computed(() =>
+  EditorStore.getBlockIndex(props.blockId)
+);
+const canMoveUp = computed(() => currentBlockIndex.value > 0);
+const canMoveDown = computed(
+  () => currentBlockIndex.value < EditorStore.blocks.length - 1
+);
+// actions
 function onMoveBlockUp() {
   EditorStore.moveBlockUp(props.blockId); // move block up
 }
@@ -57,6 +65,7 @@ function onDeleteBlock() {
       <button
         v-tippy="{ content: 'Move Up' }"
         class="block-action-item"
+        :disabled="!canMoveUp"
         @click="onMoveBlockUp"
       >
         <ArrowUp class="w-4 h-4" />
@@ -64,6 +73,7 @@ function onDeleteBlock() {
       <button
         v-tippy="{ content: 'Move Down' }"
         class="block-action-item"
+        :disabled="!canMoveDown"
         @click="onMoveBlockDown"
       >
         <ArrowDown class="w-4 h-4" />
@@ -97,7 +107,7 @@ function onDeleteBlock() {
   .block-actions {
     @apply absolute -top-8 right-0 bg-white border border-gray-200 rounded p-1 flex gap-1 shadow-sm;
     .block-action-item {
-      @apply p-2 hover:bg-gray-100 rounded;
+      @apply p-2 hover:bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed;
     }
   }
 }

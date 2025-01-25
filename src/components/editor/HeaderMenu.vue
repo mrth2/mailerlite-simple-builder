@@ -34,7 +34,7 @@ function onSave() {
 
 <style scoped lang="postcss">
 .header-menu {
-  @apply absolute top-0 inset-x-0 bg-black text-white px-4 py-5 h-14;
+  @apply fixed z-50 top-0 inset-x-0 bg-black text-white px-4 py-5 h-14;
   @apply flex justify-between items-center gap-2;
 }
 </style>

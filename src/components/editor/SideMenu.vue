@@ -32,6 +32,8 @@ function onStartDragBlock(event: DragEvent, blockType: IEditorBlock["type"]) {
 <style scoped lang="postcss">
 .side-menu {
   @apply bg-slate-700 text-white p-4 space-y-5;
+  @apply fixed top-14 h-screen;
+
   ul.ui-blocks {
     @apply flex flex-col gap-3;
     li {

@@ -7,12 +7,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        primary: ['var(--font-family)']
       },
       colors: {
-        primary: '#2A2A2B',
-        accent: '#09c269',
-        neutral: '#F4F7FA',
+        primary: 'var(--color-primary)',
+        accent: 'var(--color-accent)',
+        neutral: 'var(--color-neutral)',
       }
     },
   },

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { IImageBlock } from "@/types";
-import { defineProps } from "vue";
 
 const props = defineProps<{
   id: string;

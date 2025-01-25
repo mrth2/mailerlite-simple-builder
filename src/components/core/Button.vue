@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { withDefaults, defineProps } from "vue";
 withDefaults(
   defineProps<{
     type?: "button" | "submit";

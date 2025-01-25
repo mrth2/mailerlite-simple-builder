@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from "vue";
 import type { ITextBlock } from "@/types";
 import { useEditorStore } from "@/stores";
 import { ref } from "vue";

@@ -9,6 +9,11 @@ module.exports = {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
       },
+      colors: {
+        primary: '#2A2A2B',
+        accent: '#09c269',
+        neutral: '#F4F7FA',
+      }
     },
   },
   plugins: [],

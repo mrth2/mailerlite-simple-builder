@@ -9,6 +9,7 @@ import { acceptHMRUpdate, defineStore } from "pinia";
 export const useEditorStore = defineStore("editor", {
   state: () => ({
     data: null as IEditorData | null,
+    draggingBlockId: null as string | null,
   }),
   getters: {
     blocks: (state) => state.data?.blocks ?? [],
@@ -101,6 +102,16 @@ export const useEditorStore = defineStore("editor", {
         width: "100%",
         height: "auto",
       };
+    },
+    moveBlock(fromIndex: number, toIndex: number) {
+      if (!this.data) return;
+      const blocks = [...this.blocks];
+      const [movedBlock] = blocks.splice(fromIndex, 1);
+      blocks.splice(toIndex, 0, movedBlock);
+      this.data.blocks = blocks;
+    },
+    setDragging(blockId: string | null) {
+      this.draggingBlockId = blockId;
     },
   },
 });

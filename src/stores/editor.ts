@@ -19,6 +19,11 @@ export const useEditorStore = defineStore("editor", {
         blocks: [],
       };
     },
+    // get block index
+    getBlockIndex(blockId: string) {
+      if (!this.data) return -1;
+      return this.data.blocks.findIndex((block) => block.id === blockId);
+    },
     // add a new block to the list
     addBlock(block: IEditorBlock) {
       if (!this.data) return;
@@ -27,9 +32,26 @@ export const useEditorStore = defineStore("editor", {
     // remove a block from the list
     removeBlock(blockId: string) {
       if (!this.data) return;
-      const index = this.data.blocks.findIndex((block) => block.id === blockId);
+      const index = this.getBlockIndex(blockId);
       if (index < 0) return;
       this.data.blocks.splice(index, 1);
+    },
+    // move block up in the list
+    moveBlockUp(blockId: string) {
+      if (!this.data) return;
+      const index = this.getBlockIndex(blockId);
+      if (index <= 0) return;
+      const removed = this.data.blocks.splice(index, 1);
+      console.log(removed);
+      this.data.blocks.splice(index - 1, 0, ...removed);
+    },
+    // move block down in the list
+    moveBlockDown(blockId: string) {
+      if (!this.data) return;
+      const index = this.getBlockIndex(blockId);
+      if (index < 0 || index >= this.data.blocks.length - 1) return;
+      const removed = this.data.blocks.splice(index, 1);
+      this.data.blocks.splice(index + 1, 0, ...removed);
     },
     // reorder blocks in the list by swapping them
     reorderBlocks(sourceIndex: number, destinationIndex: number) {
@@ -40,7 +62,7 @@ export const useEditorStore = defineStore("editor", {
     // update block data by id
     updateBlock(blockId: string, data: ITextBlock | IImageBlock) {
       if (!this.data) return;
-      const index = this.data.blocks.findIndex((b) => b.id === blockId);
+      const index = this.getBlockIndex(blockId);
       if (index < 0) return;
       this.data.blocks[index].data = data;
     },

@@ -29,10 +29,10 @@ function onBlockBlur() {
 // actions
 const EditorStore = useEditorStore();
 function onMoveBlockUp() {
-  // EditorStore.moveBlockUp(props.blockId); // move block up
+  EditorStore.moveBlockUp(props.blockId); // move block up
 }
 function onMoveBlockDown() {
-  // EditorStore.moveBlockDown(props.blockId); // move block down
+  EditorStore.moveBlockDown(props.blockId); // move block down
 }
 function onDuplicateBlock() {
   const block = EditorStore.blocks.find((b) => b.id === props.blockId);

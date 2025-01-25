@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Example of nesting */
+.card {
+  @apply bg-white rounded-lg shadow;
+  
+  & .card-title {
+    @apply text-xl font-bold;
+  }
+}

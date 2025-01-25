@@ -1,4 +1,15 @@
 <script setup lang="ts">
+import { useEditorStore } from "@/stores";
+import { onMounted } from "vue";
+import { computed } from "vue";
+
+const EditorStore = useEditorStore();
+const addedBlocks = computed(() => EditorStore.data?.blocks ?? []);
+
+onMounted(() => {
+  EditorStore.initialize(); // reset blocks on mount
+});
+
 function onDragBlockOver(event: DragEvent) {
   event.preventDefault();
   // console.log("Drag over", event.dataTransfer, event.dataTransfer?.dropEffect);
@@ -9,6 +20,7 @@ function onDropBlock(event: DragEvent) {
   try {
     const blockData = JSON.parse(event.dataTransfer?.getData("block") || "{}");
     console.log("Block data", blockData);
+    EditorStore.addBlock(blockData);
   } catch (error) {
     console.error(error);
   }
@@ -20,6 +32,11 @@ function onDropBlock(event: DragEvent) {
     <div class="canvas-area" @dragover="onDragBlockOver" @drop="onDropBlock">
       <h2 class="text-xl font-semibold mb-4">Editor</h2>
       <!-- Editor content will go here -->
+      <div class="canvas-blocks">
+        <div v-for="block in addedBlocks" :key="block.id">
+          {{ block.data }}
+        </div>
+      </div>
     </div>
   </section>
 </template>

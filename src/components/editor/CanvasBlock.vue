@@ -14,16 +14,33 @@ const emit = defineEmits<{
 }>();
 
 const showActions = ref(false);
+function onMouseOver() {
+  showActions.value = true;
+}
+function onMouseLeave() {
+  if (isFocusing.value) return;
+  showActions.value = false;
+}
+
+const isFocusing = ref(false);
+function onBlockFocus() {
+  isFocusing.value = true;
+  showActions.value = true;
+}
+function onBlockBlur() {
+  isFocusing.value = false;
+  showActions.value = false;
+}
 </script>
 
 <template>
   <div
     class="canvas-block"
     :class="{ active: showActions }"
-    @mouseover="showActions = true"
-    @mouseleave="showActions = false"
+    @mouseover="onMouseOver"
+    @mouseleave="onMouseLeave"
   >
-    <slot />
+    <slot :on-focus="onBlockFocus" :on-blur="onBlockBlur" />
 
     <div v-if="showActions" class="block-actions">
       <button
@@ -60,10 +77,10 @@ const showActions = ref(false);
 
 <style scoped lang="postcss">
 .canvas-block {
-  @apply relative;
+  @apply relative border-2 border-dashed border-transparent hover:border-accent transition-colors duration-300 ease-out;
 
   &.active {
-    @apply border-2 border-dashed border-transparent hover:border-accent transition-colors duration-300 ease-out;
+    @apply border-accent;
   }
 
   .block-actions {

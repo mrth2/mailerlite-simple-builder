@@ -72,16 +72,20 @@ function onDeleteBlock(blockId: string) {
           @duplicate="onDuplicateBlock(block.id)"
           @remove="onDeleteBlock(block.id)"
         >
-          <TextBlock
-            v-if="block.type === 'text'"
-            :id="block.id"
-            :data="block.data"
-          />
-          <ImageBlock
-            v-else-if="block.type === 'image'"
-            :id="block.id"
-            :data="block.data"
-          />
+          <template #default="{ onFocus, onBlur }">
+            <TextBlock
+              v-if="block.type === 'text'"
+              :id="block.id"
+              :data="block.data"
+              @focus="onFocus"
+              @blur="onBlur"
+            />
+            <ImageBlock
+              v-else-if="block.type === 'image'"
+              :id="block.id"
+              :data="block.data"
+            />
+          </template>
         </CanvasBlock>
       </div>
     </div>

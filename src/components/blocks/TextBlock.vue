@@ -10,16 +10,23 @@ const props = defineProps<{
   data: ITextBlock;
 }>();
 
+const emit = defineEmits<{
+  (event: "focus"): void;
+  (event: "blur"): void;
+}>();
+
 const EditorStore = useEditorStore();
 
 const textData = ref(_cloneDeep(props.data));
 
 function startEditBlock() {
   textData.value = _cloneDeep(props.data);
+  emit("focus");
 }
 function updateTextBlock(event: FocusEvent) {
   textData.value.content = (event.target as HTMLDivElement).innerHTML;
   EditorStore.updateBlock(props.id, textData.value);
+  emit("blur");
 }
 </script>
 
@@ -42,6 +49,6 @@ function updateTextBlock(event: FocusEvent) {
 <style scoped lang="postcss">
 .text-block {
   @apply py-4 px-8;
-  @apply focus-within:outline-none focus-within:border-accent;
+  @apply focus-within:outline-none;
 }
 </style>

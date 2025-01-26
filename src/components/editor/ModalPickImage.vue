@@ -22,7 +22,7 @@ const handleImageLoad = (image: string) => {
 </script>
 
 <template>
-  <div class="modal">
+  <div class="modal modal-pick-image">
     <div class="modal-overlay" @click="$emit('close')"></div>
     <div class="modal-container">
       <div class="modal-header">

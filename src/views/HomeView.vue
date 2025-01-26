@@ -5,10 +5,16 @@ import CanvasEditor from "@/components/editor/CanvasEditor.vue";
 </script>
 
 <template>
-  <main class="grid bg-neutral grid-cols-[minmax(250px,350px)_1fr] gap-4 pt-14">
+  <main>
     <HeaderMenu />
     <SideMenu />
-    <div /> <!-- Empty div to fill the gap -->
     <CanvasEditor />
   </main>
 </template>
+
+<style scoped lang="postcss">
+main {
+  --side-menu-width: theme("width.80");
+  @apply bg-neutral gap-4 pt-14 lg:pl-[var(--side-menu-width)];
+}
+</style>

@@ -71,5 +71,21 @@ describe("Verify Block Actions", () => {
       });
   });
 
-  it("should be able to delete a block", () => {});
+  it("should be able to delete a block", () => {
+    // press delete button
+    const TEXT_BLOCK = "@textBlock";
+    cy.get(".canvas-area .text-block")
+      .parents(".canvas-block")
+      .as(TEXT_BLOCK.slice(1));
+    cy.get(TEXT_BLOCK).trigger("mouseover"); // hover to view the block actions
+    cy.get(".canvas-block")
+      .its("length")
+      .then((length) => {
+        cy.get('.block-action-item[data-aria-label="Remove"]').click();
+        // check if the block has been deleted
+        cy.get(".canvas-block")
+          .its("length")
+          .should("eq", length - 1);
+      });
+  });
 });

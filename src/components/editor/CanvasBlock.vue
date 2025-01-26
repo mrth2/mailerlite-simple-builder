@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { ArrowDown, ArrowUp, Copy, GripVertical, Trash } from "lucide-vue-next";
+import {
+  ArrowDown,
+  ArrowUp,
+  Copy,
+  GripVertical,
+  Trash,
+  ImagePlusIcon,
+  Edit,
+} from "lucide-vue-next";
 import { useEditorStore } from "@/stores";
+import ModalPickImage from "./ModalPickImage.vue";
 
 const props = defineProps<{
   blockId: string;
@@ -30,6 +39,10 @@ const EditorStore = useEditorStore();
 const currentBlockIndex = computed(() =>
   EditorStore.getBlockIndex(props.blockId)
 );
+const currentBlock = computed(
+  () => EditorStore.blocks[currentBlockIndex.value]
+);
+const canPickImage = computed(() => currentBlock.value.type === "image");
 const canMoveUp = computed(() => currentBlockIndex.value > 0);
 const canMoveDown = computed(
   () => currentBlockIndex.value < EditorStore.blocks.length - 1
@@ -40,6 +53,15 @@ function onMoveBlockUp() {
 }
 function onMoveBlockDown() {
   EditorStore.moveBlockDown(props.blockId); // move block down
+}
+const isChangingImage = ref(false);
+function onChangeImage(imageUrl: string) {
+  if (!currentBlock.value) return;
+  EditorStore.updateBlock(props.blockId, {
+    ...currentBlock.value.data,
+    src: imageUrl,
+  }); // update block with new image
+  isChangingImage.value = false;
 }
 function onDuplicateBlock() {
   EditorStore.duplicateBlock(props.blockId); // duplicate block
@@ -149,6 +171,15 @@ const blockClasses = computed(() => ({
         <GripVertical class="w-4 h-4" />
       </button>
       <button
+        v-if="canPickImage"
+        v-tippy="{ content: 'Change image' }"
+        class="block-action-item"
+        data-aria-label="Change image"
+        @click="isChangingImage = true"
+      >
+        <ImagePlusIcon class="w-4 h-4" />
+      </button>
+      <button
         v-tippy="{ content: 'Move Up' }"
         class="block-action-item"
         data-aria-label="Move Up"
@@ -183,6 +214,15 @@ const blockClasses = computed(() => ({
         <Trash class="w-4 h-4" />
       </button>
     </div>
+    <!-- modal to change image of an image block -->
+    <Teleport to="body">
+      <ModalPickImage
+        v-if="isChangingImage"
+        heading="Select an Image to change"
+        @select="onChangeImage"
+        @close="isChangingImage = false"
+      />
+    </Teleport>
   </div>
 </template>
 

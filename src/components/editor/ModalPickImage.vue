@@ -2,6 +2,15 @@
 import { X } from "lucide-vue-next";
 import { ref } from "vue";
 
+withDefaults(
+  defineProps<{
+    heading?: string;
+  }>(),
+  {
+    heading: "Select an Image to continue",
+  }
+);
+
 defineEmits<{
   (event: "close"): void;
   (event: "select", image: string): void;
@@ -26,7 +35,7 @@ const handleImageLoad = (image: string) => {
     <div class="modal-overlay" @click="$emit('close')"></div>
     <div class="modal-container">
       <div class="modal-header">
-        <h2 class="text-xl">Select an Image to continue</h2>
+        <h2 class="text-xl">{{ heading }}</h2>
         <X
           class="modal-close-button cursor-pointer w-6 h-6"
           @click="$emit('close')"

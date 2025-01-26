@@ -40,6 +40,7 @@ function onStartDragBlock(event: DragEvent, blockType: IEditorBlock["type"]) {
     li {
       @apply bg-accent text-white p-2 rounded-lg shadow-sm cursor-move;
       @apply flex gap-2 items-center;
+      opacity: 0.9999; /* set opacity to prevent rounded corners bug */
     }
   }
 }

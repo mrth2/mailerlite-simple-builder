@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { X } from "lucide-vue-next";
+import { ref } from "vue";
+
 defineEmits<{
   (event: "close"): void;
   (event: "select", image: string): void;
@@ -11,6 +13,12 @@ const availableImages = [
   "https://picsum.photos/402",
   "https://picsum.photos/403",
 ];
+
+const loadedImages = ref<Set<string>>(new Set());
+
+const handleImageLoad = (image: string) => {
+  loadedImages.value.add(image);
+};
 </script>
 
 <template>
@@ -25,13 +33,20 @@ const availableImages = [
         />
       </div>
       <div class="image-grid">
-        <img
+        <div
           v-for="(image, index) in availableImages"
           :key="index"
-          :src="image"
-          @click="$emit('select', image)"
-          class="image-item"
-        />
+          class="image-container"
+        >
+          <div v-show="!loadedImages.has(image)" class="image-skeleton" />
+          <img
+            :src="image"
+            @load="handleImageLoad(image)"
+            @click="$emit('select', image)"
+            class="image-item"
+            :class="{ hidden: !loadedImages.has(image) }"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -40,8 +55,17 @@ const availableImages = [
 <style scoped lang="postcss">
 .image-grid {
   @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 p-4 w-full;
+
+  .image-container {
+    @apply relative w-full h-[200px];
+  }
+
+  .image-skeleton {
+    @apply w-full h-full rounded bg-gray-200 animate-pulse;
+  }
+
   .image-item {
-    @apply w-full h-[200px] object-cover cursor-pointer rounded transition-transform duration-200 ease-in-out hover:scale-105;
+    @apply absolute inset-0 w-full h-full object-cover cursor-pointer rounded transition-transform duration-200 ease-in-out hover:scale-105;
   }
 }
 </style>

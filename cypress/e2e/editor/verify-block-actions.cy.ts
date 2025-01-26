@@ -15,6 +15,25 @@ describe("Verify Block Actions", () => {
     cy.get(".canvas-area .text-block").should("contain", "Hello World");
   });
 
+  it("should be able to change image from an image block", () => {
+    const IMAGE_BLOCK = "@imageBlock";
+    cy.get(".canvas-area .image-block")
+      .parents(".canvas-block")
+      .as(IMAGE_BLOCK.slice(1));
+    cy.get(IMAGE_BLOCK).trigger("mouseover"); // hover to view the block actions
+    cy.get('.block-action-item[data-aria-label="Change image"]').click();
+    cy.get(".modal-pick-image").should("be.visible");
+    cy.get(".modal-pick-image").within(() => {
+      cy.root().should("be.visible");
+      cy.root().should("contain", "Select an Image to change");
+      cy.get(".image-item").then(($elements) => {
+        const randomIndex = Math.floor(Math.random() * $elements.length);
+        cy.wrap($elements[randomIndex]).click();
+      });
+    });
+    cy.get(".canvas-area .image-block").should("be.visible");
+  });
+
   it("should be able to move a block up", () => {
     // press the up arrow key
     const IMAGE_BLOCK = "@imageBlock";

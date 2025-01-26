@@ -57,28 +57,6 @@ const dropPosition = ref<"top" | "bottom" | null>(null);
 function onDragStart(e: DragEvent) {
   if (!e.dataTransfer || !blockRef.value) return;
 
-  // Create ghost element with content
-  const ghost = document.createElement("div");
-  ghost.classList.add("canvas-block-ghost");
-  // Copy the content area (slot content)
-  const content = blockRef.value.querySelector(".block-content");
-  if (content) {
-    ghost.appendChild(content.cloneNode(true));
-  }
-
-  // Hide the ghost element but keep it in DOM for drag image
-  ghost.style.position = "absolute";
-  ghost.style.left = "-9999px";
-  document.body.appendChild(ghost);
-
-  // Set drag image
-  e.dataTransfer.setDragImage(ghost, 0, 0);
-
-  // Clean up ghost after drag starts
-  requestAnimationFrame(() => {
-    document.body.removeChild(ghost);
-  });
-
   isDragging.value = true;
   e.dataTransfer.effectAllowed = "move";
   EditorStore.setDragging(props.blockId);

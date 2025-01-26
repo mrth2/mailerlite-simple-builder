@@ -34,7 +34,7 @@ describe("Verify Block Actions", () => {
       });
   });
 
-  it.only("should be able to move a block down", () => {
+  it("should be able to move a block down", () => {
     // press the down arrow key
     const TEXT_BLOCK = "@textBlock";
     cy.get(".canvas-area .text-block")
@@ -53,7 +53,23 @@ describe("Verify Block Actions", () => {
       });
   });
 
-  it("should be able to duplicate a block", () => {});
+  it("should be able to duplicate a block", () => {
+    // press duplicate button
+    const TEXT_BLOCK = "@textBlock";
+    cy.get(".canvas-area .text-block")
+      .parents(".canvas-block")
+      .as(TEXT_BLOCK.slice(1));
+    cy.get(TEXT_BLOCK).trigger("mouseover"); // hover to view the block actions
+    cy.get(".canvas-block")
+      .its("length")
+      .then((length) => {
+        cy.get('.block-action-item[data-aria-label="Duplicate"]').click();
+        // check if the block has been duplicated
+        cy.get(".canvas-block")
+          .its("length")
+          .should("eq", length + 1);
+      });
+  });
 
   it("should be able to delete a block", () => {});
 });

@@ -173,6 +173,7 @@ const blockClasses = computed(() => ({
       <button
         v-tippy="{ content: 'Move Up' }"
         class="block-action-item"
+        data-aria-label="Move Up"
         :disabled="!canMoveUp"
         @click="onMoveBlockUp"
       >
@@ -181,6 +182,7 @@ const blockClasses = computed(() => ({
       <button
         v-tippy="{ content: 'Move Down' }"
         class="block-action-item"
+        data-aria-label="Move Down"
         :disabled="!canMoveDown"
         @click="onMoveBlockDown"
       >
@@ -189,6 +191,7 @@ const blockClasses = computed(() => ({
       <button
         v-tippy="{ content: 'Duplicate' }"
         class="block-action-item"
+        data-aria-label="Duplicate"
         @click="onDuplicateBlock"
       >
         <Copy class="w-4 h-4" />
@@ -196,6 +199,7 @@ const blockClasses = computed(() => ({
       <button
         v-tippy="{ content: 'Remove' }"
         class="block-action-item text-red-600"
+        data-aria-label="Remove"
         @click="onDeleteBlock"
       >
         <Trash class="w-4 h-4" />

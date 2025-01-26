@@ -2,6 +2,7 @@ import { dragNewImage, dragNewText } from "../../helpers/editor-utils";
 
 describe("Verify Block Actions", () => {
   beforeEach(() => {
+    cy.viewport(1920, 1080);
     cy.visit("/");
 
     dragNewText(); // drag a new Text block to the canvas
@@ -14,9 +15,43 @@ describe("Verify Block Actions", () => {
     cy.get(".canvas-area .text-block").should("contain", "Hello World");
   });
 
-  it("should be able to move a block up", () => {});
+  it("should be able to move a block up", () => {
+    // press the up arrow key
+    const IMAGE_BLOCK = "@imageBlock";
+    cy.get(".canvas-area .image-block")
+      .parents(".canvas-block")
+      .as(IMAGE_BLOCK.slice(1));
+    cy.get(IMAGE_BLOCK).trigger("mouseover"); // hover to view the block actions
+    // extract the index of the block
+    cy.get(IMAGE_BLOCK)
+      .invoke("index")
+      .then((index) => {
+        cy.get('.block-action-item[data-aria-label="Move Up"]').click();
+        // check if the block has moved up
+        cy.get(IMAGE_BLOCK)
+          .invoke("index")
+          .should("eq", index - 1);
+      });
+  });
 
-  it("should be able to move a block down", () => {});
+  it.only("should be able to move a block down", () => {
+    // press the down arrow key
+    const TEXT_BLOCK = "@textBlock";
+    cy.get(".canvas-area .text-block")
+      .parents(".canvas-block")
+      .as(TEXT_BLOCK.slice(1));
+    cy.get(TEXT_BLOCK).trigger("mouseover"); // hover to view the block actions
+    // extract the index of the block
+    cy.get(TEXT_BLOCK)
+      .invoke("index")
+      .then((index) => {
+        cy.get('.block-action-item[data-aria-label="Move Down"]').click();
+        // check if the block has moved down
+        cy.get(TEXT_BLOCK)
+          .invoke("index")
+          .should("eq", index + 1);
+      });
+  });
 
   it("should be able to duplicate a block", () => {});
 

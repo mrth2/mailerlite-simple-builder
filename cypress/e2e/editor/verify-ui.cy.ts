@@ -1,5 +1,6 @@
 describe("Verify UI Elements", () => {
   beforeEach(() => {
+    cy.viewport(1280, 720);
     cy.visit("/");
   });
 
@@ -33,6 +34,13 @@ describe("Verify UI Elements", () => {
         .contains("Image")
         .should("be.visible")
         .should("have.attr", "draggable", "true");
+    });
+  });
+
+  context("Mobile/Tablet Side Menu", () => {
+    it("should have side menu on the bottom when viewing from mobile/tablet", () => {
+      cy.viewport(800, 600);
+      cy.get(".side-menu").should("have.css", "bottom", "0px"); // should be put on bottom
     });
   });
 });

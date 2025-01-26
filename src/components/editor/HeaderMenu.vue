@@ -9,7 +9,7 @@ const EditorStore = useEditorStore();
 const isSaving = ref(false);
 function onSave() {
   isSaving.value = true;
-  console.log("blocks data");
+  console.log("Saved data:");
   const result = JSON.stringify(EditorStore.data, null, 2)
   console.log(result);
   setTimeout(() => {

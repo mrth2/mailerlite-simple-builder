@@ -51,9 +51,7 @@ function onMoveBlockDown() {
   EditorStore.moveBlockDown(props.blockId); // move block down
 }
 function onDuplicateBlock() {
-  const block = EditorStore.blocks.find((b) => b.id === props.blockId);
-  if (!block) return;
-  EditorStore.addBlock(block); // duplicate block
+  EditorStore.duplicateBlock(props.blockId); // duplicate block
 }
 function onDeleteBlock() {
   EditorStore.removeBlock(props.blockId); // remove block

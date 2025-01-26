@@ -51,6 +51,17 @@ export const useEditorStore = defineStore("editor", {
       }
       this.data.blocks.push(block);
     },
+    // duplicate a block in the list
+    duplicateBlock(blockId: string) {
+      if (!this.data) return;
+      const index = this.getBlockIndex(blockId);
+      if (index < 0) return;
+      const block = this.data.blocks[index];
+      this.data.blocks.splice(index + 1, 0, {
+        ...block,
+        id: `block-${Date.now()}`,
+      });
+    },
     // remove a block from the list
     removeBlock(blockId: string) {
       if (!this.data) return;

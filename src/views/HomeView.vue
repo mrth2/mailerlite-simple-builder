@@ -16,5 +16,6 @@ import CanvasEditor from "@/components/editor/CanvasEditor.vue";
 main {
   --side-menu-width: theme("width.80");
   @apply bg-neutral gap-4 pt-14 lg:pl-[var(--side-menu-width)];
+  @apply pb-40 lg:pb-0;
 }
 </style>

@@ -10,8 +10,10 @@ const isSaving = ref(false);
 function onSave() {
   isSaving.value = true;
   console.log("blocks data");
-  console.log(JSON.stringify(EditorStore.data, null, 2));
+  const result = JSON.stringify(EditorStore.data, null, 2)
+  console.log(result);
   setTimeout(() => {
+    alert('Saved your data! Check console for full result.\n' + result);
     isSaving.value = false;
   }, 1000);
 }

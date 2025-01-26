@@ -6,10 +6,16 @@ import type {
 } from "@/types";
 import { acceptHMRUpdate, defineStore } from "pinia";
 
+type TDropPosition = {
+  to: "top" | "bottom";
+  blockId: string;
+};
+
 export const useEditorStore = defineStore("editor", {
   state: () => ({
     data: null as IEditorData | null,
     draggingBlockId: null as string | null,
+    dropPosition: null as TDropPosition | null,
   }),
   getters: {
     blocks: (state) => state.data?.blocks ?? [],
@@ -28,6 +34,21 @@ export const useEditorStore = defineStore("editor", {
     // add a new block to the list
     addBlock(block: IEditorBlock) {
       if (!this.data) return;
+      // if there's drop position, we need to append the block to it
+      if (this.dropPosition) {
+        const dropPositionBlockIndex = this.data.blocks.findIndex(
+          (b) => b.id === this.dropPosition?.blockId
+        );
+        if (dropPositionBlockIndex > -1) {
+          if (this.dropPosition.to === "top") {
+            this.data.blocks.splice(dropPositionBlockIndex, 0, block);
+          } else {
+            this.data.blocks.splice(dropPositionBlockIndex + 1, 0, block);
+          }
+          this.setDropPosition(null); // clear the drop position after add block
+          return;
+        }
+      }
       this.data.blocks.push(block);
     },
     // remove a block from the list
@@ -43,7 +64,6 @@ export const useEditorStore = defineStore("editor", {
       const index = this.getBlockIndex(blockId);
       if (index <= 0) return;
       const removed = this.data.blocks.splice(index, 1);
-      console.log(removed);
       this.data.blocks.splice(index - 1, 0, ...removed);
     },
     // move block down in the list
@@ -107,15 +127,19 @@ export const useEditorStore = defineStore("editor", {
       if (!this.data) return;
       const blocks = [...this.blocks];
       const [movedBlock] = blocks.splice(fromIndex, 1);
-      
+
       // Adjust target index if moving forward to account for removed element
       const finalTargetIndex = fromIndex < toIndex ? toIndex - 1 : toIndex;
       blocks.splice(finalTargetIndex, 0, movedBlock);
-      
+
       this.data.blocks = blocks;
     },
+    // during dragging events
     setDragging(blockId: string | null) {
       this.draggingBlockId = blockId;
+    },
+    setDropPosition(pos: TDropPosition | null) {
+      this.dropPosition = pos;
     },
   },
 });

@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { ArrowUp, ArrowDown, Copy, Trash, GripVertical } from "lucide-vue-next";
+import {
+  ArrowUp,
+  ArrowDown,
+  Copy,
+  Trash,
+  GripVertical,
+  Edit,
+} from "lucide-vue-next";
 import { useEditorStore } from "@/stores";
 import { computed } from "vue";
+import type { IEditorBlock } from "@/types";
 
 const props = defineProps<{
   blockId: string;
@@ -52,7 +60,6 @@ function onDeleteBlock() {
 }
 
 const isDragging = ref(false);
-const draggedOverIndex = ref<number | null>(null);
 
 const blockRef = ref<HTMLElement | null>(null);
 
@@ -85,7 +92,6 @@ function onDragStart(e: DragEvent) {
 
   isDragging.value = true;
   e.dataTransfer.effectAllowed = "move";
-  e.dataTransfer.setData("text/plain", props.blockId);
   EditorStore.setDragging(props.blockId);
 }
 
@@ -108,25 +114,32 @@ function onDragOver(e: DragEvent) {
   const mouseY = e.clientY;
   const threshold = rect.top + rect.height / 2;
   dropPosition.value = mouseY < threshold ? "top" : "bottom";
+  EditorStore.setDropPosition({
+    to: dropPosition.value,
+    blockId: props.blockId,
+  });
 }
 
 function onDragLeave() {
   dropPosition.value = null;
+  EditorStore.setDropPosition(null);
 }
 
 function onDrop(e: DragEvent) {
   e.preventDefault();
-  const sourceBlockId = e.dataTransfer?.getData("text/plain");
-  if (!sourceBlockId || sourceBlockId === props.blockId) return;
+  if (
+    !EditorStore.draggingBlockId ||
+    EditorStore.draggingBlockId === props.blockId
+  )
+    return;
 
-  const sourceIndex = EditorStore.getBlockIndex(sourceBlockId);
+  const sourceIndex = EditorStore.getBlockIndex(EditorStore.draggingBlockId);
   const targetIndex = currentBlockIndex.value;
-  
+
   if (sourceIndex !== -1 && targetIndex !== -1) {
     // If dropping below, increment target index to insert after current block
-    const adjustedTargetIndex = dropPosition.value === 'bottom' 
-      ? targetIndex + 1 
-      : targetIndex;
+    const adjustedTargetIndex =
+      dropPosition.value === "bottom" ? targetIndex + 1 : targetIndex;
     EditorStore.moveBlock(sourceIndex, adjustedTargetIndex);
   }
 

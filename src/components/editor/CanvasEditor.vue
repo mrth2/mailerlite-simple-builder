@@ -8,6 +8,7 @@ import ModalPickImage from "./ModalPickImage.vue";
 import { ref } from "vue";
 import type { IEditorBlock, IEditorBlockImage } from "@/types";
 import CanvasBlock from "./CanvasBlock.vue";
+import { Edit } from "lucide-vue-next";
 
 const EditorStore = useEditorStore();
 const addedBlocks = computed(() => EditorStore.blocks);

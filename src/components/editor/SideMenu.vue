@@ -6,10 +6,11 @@ import type { IEditorBlock } from "@/types";
 const EditorStore = useEditorStore();
 
 function onStartDragBlock(event: DragEvent, blockType: IEditorBlock["type"]) {
-  event.dataTransfer?.setData(
-    "block",
-    JSON.stringify(EditorStore.generateEmptyBlock(blockType))
-  );
+  if (!event.dataTransfer) return;
+  event.dataTransfer.effectAllowed = "copyMove";
+  const newEmptyBlock = EditorStore.generateEmptyBlock(blockType);
+  EditorStore.setDragging(newEmptyBlock.id);
+  event.dataTransfer.setData("block", JSON.stringify(newEmptyBlock));
 }
 </script>
 <template>

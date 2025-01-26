@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { useEditorStore } from "@/stores";
-import { onMounted } from "vue";
-import { computed } from "vue";
-import TextBlock from "../blocks/TextBlock.vue";
+import { computed, onMounted, ref } from "vue";
+import CanvasBlock from "./CanvasBlock.vue";
 import ImageBlock from "../blocks/ImageBlock.vue";
 import ModalPickImage from "./ModalPickImage.vue";
-import { ref } from "vue";
+import TextBlock from "../blocks/TextBlock.vue";
+import { useEditorStore } from "@/stores";
 import type { IEditorBlock, IEditorBlockImage } from "@/types";
-import CanvasBlock from "./CanvasBlock.vue";
-import { Edit } from "lucide-vue-next";
 
 const EditorStore = useEditorStore();
 const addedBlocks = computed(() => EditorStore.blocks);

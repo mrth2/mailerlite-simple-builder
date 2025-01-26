@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Text, Image } from "lucide-vue-next";
+import { Image, Text } from "lucide-vue-next";
 import { useEditorStore } from "@/stores";
 import type { IEditorBlock } from "@/types";
 

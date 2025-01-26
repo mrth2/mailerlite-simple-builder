@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import HeaderMenu from "@/components/editor/HeaderMenu.vue";
 import SideMenu from "@/components/editor/SideMenu.vue";
 import CanvasEditor from "@/components/editor/CanvasEditor.vue";
-import HeaderMenu from "@/components/editor/HeaderMenu.vue";
 </script>
 
 <template>

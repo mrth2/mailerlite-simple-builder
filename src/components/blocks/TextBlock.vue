@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ITextBlock } from "@/types";
-import { useEditorStore } from "@/stores";
 import { ref } from "vue";
 import _cloneDeep from "lodash/cloneDeep";
+import { useEditorStore } from "@/stores";
+import type { ITextBlock } from "@/types";
 
 const props = defineProps<{
   id: string;

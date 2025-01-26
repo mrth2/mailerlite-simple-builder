@@ -1,16 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import {
-  ArrowUp,
-  ArrowDown,
-  Copy,
-  Trash,
-  GripVertical,
-  Edit,
-} from "lucide-vue-next";
+import { ref, computed } from "vue";
+import { ArrowDown, ArrowUp, Copy, GripVertical, Trash } from "lucide-vue-next";
 import { useEditorStore } from "@/stores";
-import { computed } from "vue";
-import type { IEditorBlock } from "@/types";
 
 const props = defineProps<{
   blockId: string;

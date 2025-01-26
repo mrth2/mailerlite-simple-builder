@@ -230,14 +230,14 @@ const blockClasses = computed(() => ({
   &.drop-target-top {
     &::before {
       content: "";
-      @apply absolute -top-1 inset-x-0 h-1 bg-primary;
+      @apply absolute -top-1 inset-x-0 h-1 bg-accent;
     }
   }
 
   &.drop-target-bottom {
     &::after {
       content: "";
-      @apply absolute -bottom-1 inset-x-0 h-1 bg-primary;
+      @apply absolute -bottom-1 inset-x-0 h-1 bg-accent;
     }
   }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { X } from "lucide-vue-next";
+import { XIcon } from "lucide-vue-next";
 import { ref } from "vue";
 
 withDefaults(
@@ -36,7 +36,7 @@ const handleImageLoad = (image: string) => {
     <div class="modal-container">
       <div class="modal-header">
         <h2 class="text-xl">{{ heading }}</h2>
-        <X
+        <XIcon
           class="modal-close-button cursor-pointer w-6 h-6"
           @click="$emit('close')"
         />

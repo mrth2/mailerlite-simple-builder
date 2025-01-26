@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import {
-  ArrowDown,
-  ArrowUp,
-  Copy,
-  GripVertical,
-  Trash,
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CopyIcon,
+  GripVerticalIcon,
+  TrashIcon,
   ImagePlusIcon,
-  Edit,
+  EditIcon,
 } from "lucide-vue-next";
 import { useEditorStore } from "@/stores";
 import ModalPickImage from "./ModalPickImage.vue";
@@ -168,7 +168,7 @@ const blockClasses = computed(() => ({
         @dragstart="onDragStart"
         @dragend="onDragEnd"
       >
-        <GripVertical class="w-4 h-4" />
+        <GripVerticalIcon class="w-4 h-4" />
       </button>
       <button
         v-if="canPickImage"
@@ -186,7 +186,7 @@ const blockClasses = computed(() => ({
         :disabled="!canMoveUp"
         @click="onMoveBlockUp"
       >
-        <ArrowUp class="w-4 h-4" />
+        <ArrowUpIcon class="w-4 h-4" />
       </button>
       <button
         v-tippy="{ content: 'Move Down' }"
@@ -195,7 +195,7 @@ const blockClasses = computed(() => ({
         :disabled="!canMoveDown"
         @click="onMoveBlockDown"
       >
-        <ArrowDown class="w-4 h-4" />
+        <ArrowDownIcon class="w-4 h-4" />
       </button>
       <button
         v-tippy="{ content: 'Duplicate' }"
@@ -203,7 +203,7 @@ const blockClasses = computed(() => ({
         data-aria-label="Duplicate"
         @click="onDuplicateBlock"
       >
-        <Copy class="w-4 h-4" />
+        <CopyIcon class="w-4 h-4" />
       </button>
       <button
         v-tippy="{ content: 'Remove' }"
@@ -211,7 +211,7 @@ const blockClasses = computed(() => ({
         data-aria-label="Remove"
         @click="onDeleteBlock"
       >
-        <Trash class="w-4 h-4" />
+        <TrashIcon class="w-4 h-4" />
       </button>
     </div>
     <!-- modal to change image of an image block -->
